@@ -26,7 +26,7 @@ const validateDifficulty = (difficulty: string | undefined): void => {
   }
 };
 
-const getRandomProblem = async (difficulty: string | undefined) => {
+const fetchRandomProblemId = async (difficulty: string | undefined) => {
   const problems = await fetchAllProblems();
   const filteredProblems = difficulty ? problems.filter((p) => p.difficulty.toLowerCase() === difficulty) : problems;
 
@@ -35,7 +35,7 @@ const getRandomProblem = async (difficulty: string | undefined) => {
     process.exit(1);
   }
 
-  return filteredProblems[Math.floor(Math.random() * filteredProblems.length)]!;
+  return filteredProblems[Math.floor(Math.random() * filteredProblems.length)]!.frontendQuestionId;
 };
 
 const generateFilename = (problem: LeetcodeProblem): string => {
@@ -59,13 +59,10 @@ const generateCode = (problem: LeetcodeProblem, problemIdStr: string): string =>
 };
 
 const fetchRandomProblem = async (difficulty: string | undefined): Promise<LeetcodeProblem> => {
-  const randomProblem = await getRandomProblem(difficulty);
-  const selectedProblemId = randomProblem.frontendQuestionId;
+  const problemId = await fetchRandomProblemId(difficulty);
+  console.log(`Selected random problem: ${problemId}`);
 
-  console.log(`Selected random problem: ${selectedProblemId}`);
-
-  const problemId = +selectedProblemId;
-  return await fetchProblemById(problemId);
+  return await fetchProblemById(+problemId);
 };
 
 const storeProblemFile = async (problem: LeetcodeProblem): Promise<void> => {
