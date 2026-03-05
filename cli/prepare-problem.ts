@@ -1,4 +1,5 @@
 import { storeFile } from "@core/memo.js";
+import { existsSync } from "node:fs";
 import { fetchProblemById } from "./leetcode.js";
 
 const problemIdStr = process.argv[2];
@@ -22,15 +23,17 @@ describe("{{questionId}} - {{title}}", () => {
 `;
 
 const problemId = +problemIdStr;
-
 const problem = await fetchProblemById(problemId);
-
 const filename = `src/problems/${problem.difficulty.toLowerCase()}/sol-${problem.questionId}-${problem.titleSlug}.test.ts`;
+
+if (existsSync(filename)) {
+  console.error(`Problem ${problemId} already exists. Delete file to regenerate.`);
+  process.exit(0);
+}
+
 const code = codeScafold
   .replaceAll("{{questionId}}", problemIdStr)
   .replaceAll("{{title}}", problem.title)
   .replaceAll("{{content}}", problem.content);
 
-console.log(code);
-console.log(filename);
 storeFile(filename, code, "text");
