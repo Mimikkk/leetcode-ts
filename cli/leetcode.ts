@@ -6,7 +6,7 @@ interface LeetcodeProblem {
   title: string;
   titleSlug: string;
   difficulty: string;
-  codeSnippets: { lang: string }[];
+  codeSnippets: { lang: string; code: string }[];
   content: string;
 }
 
@@ -23,9 +23,6 @@ query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $fi
     questions: data {
       frontendQuestionId: questionFrontendId
       titleSlug
-      codeSnippets {
-      lang
-    }
     }
   }
 }
@@ -39,7 +36,8 @@ query questionTitleSlug($titleSlug: String!) {
     titleSlug
     difficulty
     codeSnippets {
-      lang
+      lang,
+      code
     }
   }
 }

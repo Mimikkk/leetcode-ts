@@ -34,6 +34,10 @@ You can return the answer in any order.
 */
 import { describe, expect, it } from "vitest";
 
+function twoSum(nums: number[], target: number): number[] {
+  return [];
+}
+
 describe("1 - Two Sum", () => {
   it("case-1", () => {
     expect(true).toBe(true);

@@ -15,6 +15,8 @@ const codeScafold = `/**
 */
 import { describe, expect, it } from "vitest";
 
+{{code}}
+
 describe("{{questionId}} - {{title}}", () => {
   it("case-1", () => {
     expect(true).toBe(true);
@@ -34,6 +36,7 @@ if (existsSync(filename)) {
 const code = codeScafold
   .replaceAll("{{questionId}}", problemIdStr)
   .replaceAll("{{title}}", problem.title)
+  .replaceAll("{{code}}", problem.codeSnippets.find((snippet) => snippet.lang === "TypeScript")?.code || "")
   .replaceAll("{{content}}", problem.content);
 
 storeFile(filename, code, "text");
