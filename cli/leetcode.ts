@@ -1,7 +1,7 @@
 import { LeetcodeClient, TurndownService as TurndownClient } from "../src/core/container.js";
 import { memo } from "../src/core/memo.js";
 
-interface LeetcodeProblem {
+export interface LeetcodeProblem {
   questionId: string;
   title: string;
   titleSlug: string;
@@ -23,6 +23,7 @@ query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $fi
     questions: data {
       frontendQuestionId: questionFrontendId
       titleSlug
+      difficulty
     }
   }
 }
@@ -60,6 +61,7 @@ export const fetchAllProblems = memo({
           questions: {
             titleSlug: string;
             frontendQuestionId: string;
+            difficulty: string;
           }[];
         };
       };
