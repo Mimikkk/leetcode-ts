@@ -4,7 +4,7 @@ import { parseArgs } from "node:util";
 import { fetchAllProblems, fetchProblemById, type LeetcodeProblem } from "./leetcode.js";
 
 const CodeTemplate = `/**
-{{questionId}} - {{title}}
+{{questionId}} - {{title}} - https://leetcode.com/problems/{{title}}/description/
 
 {{content}}
 */
@@ -53,7 +53,7 @@ const generateCode = (problem: LeetcodeProblem, problemIdStr: string): string =>
   const typeScriptSnippet = problem.codeSnippets.find((snippet) => snippet.lang === "TypeScript");
 
   return CodeTemplate.replaceAll("{{questionId}}", problemIdStr)
-    .replaceAll("{{title}}", problem.title)
+    .replaceAll("{{title}}", problem.titleSlug)
     .replaceAll("{{code}}", typeScriptSnippet?.code || "")
     .replaceAll("{{content}}", problem.content);
 };
