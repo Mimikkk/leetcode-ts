@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "create-problem": "pnpm exec vite-node cli/prepare-problem.ts"
+    "create-problem": "pnpm exec vite-node cli/prepare-problem.ts",
+    "test": "pnpm vitest"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",
