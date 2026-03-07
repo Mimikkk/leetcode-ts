@@ -2,6 +2,7 @@ import { storeFile } from "@core/memo.js";
 import { existsSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { fetchAllProblems, fetchProblemById, type LeetcodeProblem } from "./leetcode.js";
+import { mkdir } from "node:fs/promises";
 
 const CodeTemplate = `/**
 {{questionId}} - {{title}} - https://leetcode.com/problems/{{title}}/description/
@@ -26,16 +27,41 @@ const validateDifficulty = (difficulty: string | undefined): void => {
   }
 };
 
+const solvedProblemsIdsCachePath = ".cache/solved-problems.json";
+
+const loadSolvedProblems = async (): Promise<Set<string>> => {
+  try {
+    const { readFile } = await import("node:fs/promises");
+    const content = await readFile(solvedProblemsIdsCachePath, "utf-8");
+    return new Set(JSON.parse(content));
+  } catch {
+    return new Set();
+  }
+};
+
+const saveSolvedProblems = async (solvedProblems: Set<string>): Promise<void> => {
+  await mkdir(".cache", { recursive: true });
+  await storeFile(solvedProblemsIdsCachePath, JSON.stringify([...solvedProblems]), "text");
+};
+
 const fetchRandomProblemId = async (difficulty: string | undefined) => {
   const problems = await fetchAllProblems();
-  const filteredProblems = difficulty ? problems.filter((p) => p.difficulty.toLowerCase() === difficulty) : problems;
+  const solvedProblems = await loadSolvedProblems();
+
+  const filteredProblems = difficulty
+    ? problems.filter((p) => p.difficulty.toLowerCase() === difficulty && !solvedProblems.has(p.frontendQuestionId))
+    : problems.filter((p) => !solvedProblems.has(p.frontendQuestionId));
 
   if (filteredProblems.length === 0) {
-    console.error(`No problems found${difficulty ? ` with difficulty: ${difficulty}` : ""}`);
+    console.error(`No unsolved problems found${difficulty ? ` with difficulty: ${difficulty}` : ""}`);
     process.exit(1);
   }
 
-  return filteredProblems[Math.floor(Math.random() * filteredProblems.length)]!.frontendQuestionId;
+  const selectedProblem = filteredProblems[Math.floor(Math.random() * filteredProblems.length)]!;
+  solvedProblems.add(selectedProblem.frontendQuestionId);
+  await saveSolvedProblems(solvedProblems);
+
+  return selectedProblem.frontendQuestionId;
 };
 
 const generateFilename = (problem: LeetcodeProblem): string => {
