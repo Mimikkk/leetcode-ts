@@ -24,11 +24,36 @@ The solution set **must not** contain duplicate subsets. Return the solution in 
 import { describe, expect, it } from "vitest";
 
 function subsets(nums: number[]): number[][] {
-    
-};
+  const result: number[][] = [];
+
+  const size = Math.pow(2, nums.length);
+
+  for (let i = 0; i < size; ++i) {
+    const level: number[] = [];
+
+    let val = i;
+    for (let j = 0; j < nums.length; ++j) {
+      if (val & 1) {
+        level.push(nums[j]!);
+      }
+
+      val >>= 1;
+    }
+
+    result.push(level);
+  }
+
+  return result;
+}
 
 describe("78 - subsets", () => {
   it("case-1", () => {
-    expect(true).toBe(true);
+    expect(subsets([1, 2, 3])).toEqual([[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]);
+  });
+  it("case-2", () => {
+    expect(subsets([0])).toEqual([[], [0]]);
+  });
+  it("case-3", () => {
+    expect(subsets([1, 2])).toEqual([[], [1], [2], [1, 2]]);
   });
 });

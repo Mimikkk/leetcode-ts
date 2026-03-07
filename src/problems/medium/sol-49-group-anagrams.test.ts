@@ -60,9 +60,9 @@ function groupAnagrams(strs: string[]): string[][] {
 describe("49 - group-anagrams", () => {
   it("case-1", () => {
     expect(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])).toEqual([
+      ["ate", "eat", "tea"],
       ["bat"],
       ["nat", "tan"],
-      ["ate", "eat", "tea"],
     ]);
   });
 });
