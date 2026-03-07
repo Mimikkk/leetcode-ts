@@ -50,24 +50,43 @@ export const fetchAllProblems = memo({
   filename: "all-problems.json",
   expiryMs: OneDayMs,
   fn: async () => {
-    const problems = await LeetcodeClient.post("https://leetcode.com/graphql", {
-      json: {
-        query: queries.all,
-        variables: { categorySlug: "", limit: 5000, skip: 0, filters: {} },
-      },
-    }).json<{
-      data: {
-        problemsetQuestionList: {
-          questions: {
-            titleSlug: string;
-            frontendQuestionId: string;
-            difficulty: string;
-          }[];
-        };
-      };
-    }>();
+    const allProblems: {
+      titleSlug: string;
+      frontendQuestionId: string;
+      difficulty: string;
+    }[] = [];
 
-    return problems.data.problemsetQuestionList.questions;
+    let skip = 0;
+    const limit = 100;
+    let hasMore = true;
+
+    while (hasMore) {
+      const problems = await LeetcodeClient.post("https://leetcode.com/graphql", {
+        json: {
+          query: queries.all,
+          variables: { categorySlug: "", limit, skip, filters: {} },
+        },
+      }).json<{
+        data: {
+          problemsetQuestionList: {
+            total: number;
+            questions: {
+              titleSlug: string;
+              frontendQuestionId: string;
+              difficulty: string;
+            }[];
+          };
+        };
+      }>();
+
+      const questions = problems.data.problemsetQuestionList.questions;
+      allProblems.push(...questions);
+
+      skip += limit;
+      hasMore = questions.length === limit;
+    }
+
+    return allProblems;
   },
 });
 
