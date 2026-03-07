@@ -66,7 +66,7 @@ function isValid(s: string): boolean {
     }
   }
 
-  return true;
+  return stack.length === 0;
 }
 
 describe("20 - valid-parentheses", () => {
@@ -88,5 +88,9 @@ describe("20 - valid-parentheses", () => {
 
   it("case-5", () => {
     expect(isValid("{[]}")).toBe(true);
+  });
+
+  it("case-6", () => {
+    expect(isValid("(")).toBe(false);
   });
 });
