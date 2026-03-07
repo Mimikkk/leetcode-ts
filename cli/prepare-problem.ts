@@ -1,8 +1,9 @@
 import { storeFile } from "@core/memo.js";
 import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { fetchAllProblems, fetchProblemById, type LeetcodeProblem } from "./leetcode.js";
-import { mkdir } from "node:fs/promises";
 
 const CodeTemplate = `/**
 {{questionId}} - {{title}} - https://leetcode.com/problems/{{title}}/description/
@@ -97,6 +98,8 @@ const storeProblemFile = async (problem: LeetcodeProblem): Promise<void> => {
 
   const code = generateCode(problem, problem.questionId);
   await storeFile(filename, code, "text");
+
+  console.log(resolve(filename));
 };
 
 const main = async (): Promise<void> => {
