@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "create-problem": "pnpm exec vite-node cli/prepare-problem.ts",
+    "random": "pnpm exec vite-node cli/prepare-problem.ts -r",
     "test": "pnpm vitest"
   },
   "devDependencies": {
