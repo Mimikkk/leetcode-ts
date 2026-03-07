@@ -100,6 +100,7 @@ const storeProblemFile = async (problem: LeetcodeProblem): Promise<void> => {
   await storeFile(filename, code, "text");
 
   console.log(resolve(filename));
+  console.log(`https://leetcode.com/problems/${problem.titleSlug}/description/`);
 };
 
 const main = async (): Promise<void> => {
