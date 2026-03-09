@@ -61,7 +61,7 @@ function accountBalanceAfterPurchase(purchaseAmount: number): number {
 
 describe("2955 - account-balance-after-rounded-purchase", () => {
   it("case-0", () => {
-    expect(accountBalanceAfterPurchase(0)).toBe(90);
+    expect(accountBalanceAfterPurchase(1)).toBe(100);
   });
   it("case-1", () => {
     expect(accountBalanceAfterPurchase(9)).toBe(90);
