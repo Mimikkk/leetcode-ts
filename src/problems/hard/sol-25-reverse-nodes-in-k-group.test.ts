@@ -29,7 +29,7 @@ You may not alter the values in the list's nodes, only nodes themselves may be c
 
 **Follow-up:** Can you solve the problem in `O(1)` extra memory space?
 */
-import { ListNode } from "@core/listnode.js";
+import { ListNode } from "@core/ListNode.js";
 import { describe, expect, it } from "vitest";
 
 function reverseKGroup(node: ListNode | null, k: number): ListNode | null {

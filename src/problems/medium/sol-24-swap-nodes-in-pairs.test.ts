@@ -3,7 +3,7 @@
 Given a linked list, 
 swap every two adjacent nodes and return its head. 
 */
-import { ListNode } from "@core/listnode.js";
+import { ListNode } from "@core/ListNode.js";
 import { describe, expect, it } from "vitest";
 
 function swapPairs(node: ListNode | null): ListNode | null {

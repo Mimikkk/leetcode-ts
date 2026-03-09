@@ -30,7 +30,7 @@ Return _the head of the merged linked list_.
 *   `-100 <= Node.val <= 100`
 *   Both `list1` and `list2` are sorted in **non-decreasing** order.
 */
-import { ListNode } from "@core/listnode.js";
+import { ListNode } from "@core/ListNode.js";
 import { describe, expect, it } from "vitest";
 
 function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode | null {
